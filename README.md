@@ -3,4 +3,6 @@
 
 ## Local Setup
 - Download Nodejs v22
-- npm ci 
+- npm ci
+- create .env file for configurations examples: `PORT=3001`
+- npm start (This command will start your server)
