@@ -1,19 +1,19 @@
-import express from 'express';
+import express, { response } from 'express';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import leadRoutes from './routes/leadRoutes';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello, World!' });
-});
+app.use('/api/v1', leadRoutes);
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
