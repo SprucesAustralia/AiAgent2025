@@ -6,6 +6,7 @@ export class LeadRepository {
     const { data, error } = await supabase
       .from('leads')
       .insert(lead)
+      .select()
       .single();
 
     if (error) {
@@ -41,11 +42,26 @@ export class LeadRepository {
     return data;
   }
 
+  async getLeadByLeadNumber(leadNumber: string): Promise<Lead | null> {
+    const { data, error } = await supabase
+      .from('leads')
+      .select('*')
+      .eq('leadNumber', leadNumber)
+      .single();
+
+    if (error) {
+      console.error('Error fetching lead:', error);
+      return null;
+    }
+    return data;
+  }
+
   async updateLead(id: number, lead: Partial<Lead>): Promise<Lead | null> {
     const { data, error } = await supabase
       .from('leads')
       .update(lead)
       .eq('id', id)
+      .select()
       .single();
 
     if (error) {

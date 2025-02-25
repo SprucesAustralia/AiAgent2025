@@ -1,5 +1,6 @@
 import { LeadRepository } from '../repositories/leadRepository';
 import { Lead } from '../models/lead';
+import { generateLeadNumber } from '../utils/generateLeadNumber';
 
 export class LeadService {
   private leadRepository: LeadRepository;
@@ -9,7 +10,11 @@ export class LeadService {
   }
 
   async createLead(lead: Omit<Lead, 'id'>): Promise<Lead | null> {
-    return await this.leadRepository.createLead(lead);
+    const leadWithId = {
+      ...lead,
+      leadNumber: generateLeadNumber()
+    };
+    return await this.leadRepository.createLead(leadWithId);
   }
 
   async getAllLeads(): Promise<Lead[] | null> {
@@ -18,6 +23,10 @@ export class LeadService {
 
   async getLeadById(id: number): Promise<Lead | null> {
     return await this.leadRepository.getLeadById(id);
+  }
+
+  async getLeadByLeadNumber(leadNumber: string): Promise<Lead | null> {
+    return await this.leadRepository.getLeadByLeadNumber(leadNumber);
   }
 
   async updateLead(id: number, lead: Partial<Lead>): Promise<Lead | null> {

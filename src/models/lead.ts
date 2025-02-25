@@ -11,6 +11,7 @@ export enum TypeOfService {
 
 export interface Lead {
   id: number;
+  leadNumber: string;
   fullname: string;
   email: string;
   phone: string;

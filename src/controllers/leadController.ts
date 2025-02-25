@@ -38,6 +38,16 @@ export class LeadController {
     }
   }
 
+  async getLeadByLeadNumber(req: Request, res: Response): Promise<void> {
+    const leadNumber = req.params.leadNumber;
+    const lead = await this.leadService.getLeadByLeadNumber(leadNumber);
+    if (lead) {
+      res.status(200).json(lead);
+    } else {
+      res.status(404).json({ error: 'Lead not found' });
+    }
+  }
+
   async updateLead(req: Request, res: Response): Promise<void> {
     const id = parseInt(req.params.id, 10);
     const lead: Partial<Lead> = req.body;
