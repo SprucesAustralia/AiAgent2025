@@ -1,11 +1,22 @@
 import { Request, Response } from 'express';
 import { CallService } from '../services/callService';
+import { Call } from '../models/callResponse';
 
 export class CallController {
   private callService: CallService;
 
   constructor() {
     this.callService = new CallService();
+  }
+
+  async createCall(req: Request, res: Response): Promise<void> {
+    const leadCall: Omit<Call, 'id'> = req.body;
+    const createdCall = await this.callService.createCall(leadCall);
+    if (createdCall) {
+      res.status(201).json(createdCall);
+    } else {
+      res.status(500).json({ error: 'Failed to create lead Call' });
+    }
   }
 
   async getCallById(req: Request, res: Response): Promise<void> {
