@@ -24,4 +24,5 @@ PORT=*****
 SUPABASE_URL=*******
 SUPABASE_KEY=*******
 SYNTHFLOW_API_KEY=*******
+API_KEY=*********
 ```
