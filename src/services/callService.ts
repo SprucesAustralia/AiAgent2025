@@ -1,7 +1,7 @@
 import { postSynthFlowData, getSynthFlowData } from '../clients/synthflowClient';
 import { MakeACallRequest } from '../models/makeACallRequest';
 import { MakeACallResponse } from '../models/makeACallResponse';
-import { Call, CallResponse } from '../models/callResponse';
+import { Call, CallResponse, WebhookCall } from '../models/callResponse';
 import { CallRepository } from '../repositories/callRepository';
 import { buildCall } from '../utils/buildCall';
 
@@ -24,24 +24,22 @@ export class CallService {
     return await getSynthFlowData(CALL_PATH, params);
   }
 
-  async createCall(call: Omit<Call, 'id'>): Promise<Call | null> {
+  async createCall(call: Omit<WebhookCall, 'id'>): Promise<Call | null> {
     const newCall: Call = buildCall({
       status: call.status,
-      call_id: call.call_id,
-      model_id: call.model_id,
-      campaign_type: call.campaign_type,
-      prompt_variables: call.prompt_variables,
-      phone_number_from: call.phone_number_from,
-      phone_number_to: call.phone_number_to,
-      name:call.name,
-      transcript: call.transcript,
-      duration: call.duration,
-      recording_url: call.recording_url,
-      end_call_reason: call.end_call_reason,
-      timezone: call.end_call_reason,
-      start_time: call.start_time,
+      call_id: call.call.call_id,
+      model_id: call.call.model_id,
+      prompt_variables: call.lead.prompt_variables,
+      phone_number_to: call.lead.phone_number,
+      name:call.lead.name,
+      transcript: call.call.transcript,
+      duration: call.call.duration,
+      recording_url: call.call.recording_url,
+      end_call_reason: call.call.end_call_reason,
+      timezone: call.call.timezone,
+      start_time: call.call.start_time,
       executed_actions: call.executed_actions
-    })
+    });
     return await this.callRepository.createCall(newCall);
   }
 }

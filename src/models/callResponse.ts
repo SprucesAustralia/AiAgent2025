@@ -23,4 +23,18 @@ interface CallResponse {
     };
 }
 
-export { CallResponse, Call };
+interface Lead {
+    name: string;
+    phone_number: string;
+    prompt_variables: object;
+}
+
+interface WebhookCall {
+    status: string;
+    lead: Lead;
+    call: Call;
+    executed_actions: object;
+    analysis: {}
+}
+
+export { CallResponse, Call, WebhookCall };

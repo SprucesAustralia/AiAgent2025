@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { CallService } from '../services/callService';
-import { Call } from '../models/callResponse';
+import { WebhookCall } from '../models/callResponse';
 
 export class CallController {
   private callService: CallService;
@@ -10,7 +10,7 @@ export class CallController {
   }
 
   async createCall(req: Request, res: Response): Promise<void> {
-    const leadCall: Omit<Call, 'id'> = req.body;
+    const leadCall: Omit<WebhookCall, 'id'> = req.body;
     const createdCall = await this.callService.createCall(leadCall);
     if (createdCall) {
       res.status(201).json(createdCall);
