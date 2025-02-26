@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import leadRoutes from './routes/leadRoutes';
 import assistantRoutes from './routes/assistantRoutes';
 import leadCallRoutes from './routes/leadCallRoutes';
+import callRoutes from './routes/callRoutes';
 
 const API_PATH_VERSION = '/api/v1';
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 app.use(API_PATH_VERSION, leadRoutes);
 app.use(API_PATH_VERSION, assistantRoutes);
 app.use(API_PATH_VERSION, leadCallRoutes)
+app.use(API_PATH_VERSION, callRoutes)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
