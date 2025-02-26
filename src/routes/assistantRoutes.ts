@@ -1,5 +1,5 @@
 import express from 'express';
-import { AssistantController } from '../controllers/AssistantController';
+import { AssistantController } from '../controllers/assistantController';
 
 const router = express.Router();
 const assistantController = new AssistantController();
