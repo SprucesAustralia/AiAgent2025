@@ -7,6 +7,8 @@
 ## Tables
 - leads
   - This is the table used to store all the leads coming from the business website.https://spruces.co
+- lead_call
+  - This is the table used to store the lead id, lead number, and call id. 
 
 ## Local Setup
 - Download Nodejs v22
