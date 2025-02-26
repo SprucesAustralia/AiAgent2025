@@ -2,17 +2,21 @@ import { LeadRepository } from '../repositories/leadRepository';
 import { Lead } from '../models/lead';
 import { generateLeadNumber } from '../utils/generateLeadNumber';
 import { CallService } from './callService';
+import { LeadCallService } from './leadCallService';
 import { MakeACallRequest } from '../models/makeACallRequest';
 import { buildMakeACallRequest } from '../utils/buildMakeACallRequest';
+import { buildLeadCall } from '../utils/buildLeadCall';
 import { formatPhoneNumber } from '../utils/formatPhoneNumber';
 
 export class LeadService {
   private leadRepository: LeadRepository;
-  private callService: CallService
+  private callService: CallService;
+  private leadCallService: LeadCallService;
 
   constructor() {
     this.leadRepository = new LeadRepository();
     this.callService = new CallService();
+    this.leadCallService = new LeadCallService();
   }
 
   async createLead(lead: Omit<Lead, 'id'>): Promise<Lead | null> {
@@ -34,8 +38,9 @@ export class LeadService {
         Do you have a couple of minutes to finish the request?`,
       });
       const callResponse = await this.callService.makeACall(makeACallRequest);
-      console.log(callResponse);
-      // Store call response in the lead_call table
+      if (callResponse) {
+        this.leadCallService.createLeadCall(buildLeadCall({ lead_id: newLead.id, call_id: callResponse.response.call_id }));
+      }
     }
     return newLead
   }
