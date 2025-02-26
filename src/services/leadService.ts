@@ -29,8 +29,8 @@ export class LeadService {
         name: newLead.fullname,
         lead_email: newLead.email,
         lead_timezone: 'Australia/Brisbane',
-        greeting: `Hello ${lead.fullname}, I am calling from Spruces cleaning! 
-        I've seen you complete our form on the website about Cleaning services. 
+        greeting: `Hello ${newLead.fullname}, I am calling from Spruces cleaning! 
+        I've seen you complete our form on the website about ${newLead.typeOfService} services. 
         Do you have a couple of minutes to finish the request?`,
       });
       const callResponse = await this.callService.makeACall(makeACallRequest);
