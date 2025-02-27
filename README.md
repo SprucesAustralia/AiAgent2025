@@ -9,6 +9,8 @@
   - This is the table used to store all the leads coming from the business website.https://spruces.co
 - lead_call
   - This is the table used to store the lead id, lead number, and call id. 
+- calls
+  - This is the webhook response from the synthflow.
 
 ## Local Setup
 - Download Nodejs v22
