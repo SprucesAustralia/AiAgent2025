@@ -18,7 +18,8 @@
 - cd AiAgent2025
 - npm ci
 - create .env file
-- npm start (This command will start your server)
+- npm run dev (This command will start your server)
+- npm run build && npm start (Only for production)
 
 ### .env
 ```
