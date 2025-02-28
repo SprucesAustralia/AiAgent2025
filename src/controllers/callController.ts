@@ -15,7 +15,7 @@ export class CallController {
     if (createdCall) {
       res.status(201).json(createdCall);
     } else {
-      res.status(500).json({ error: 'Failed to create lead Call' });
+      res.status(500).json({ error: 'Failed to create call' });
     }
   }
 

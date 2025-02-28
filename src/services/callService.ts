@@ -17,15 +17,19 @@ export class CallService {
     return await postSynthFlowData(CALL_PATH, makeACallRequest);
   }
 
-  async getCallById( callId: string): Promise<CallResponse[] | null> {
+  async getCallById(callId: string): Promise<CallResponse[] | null> {
     return await getSynthFlowData(`${CALL_PATH}/${callId}`);
   }
 
-  async getAllCalls( params?: object): Promise<CallResponse[] | null> {
+  async getAllCalls(params?: object): Promise<CallResponse[] | null> {
     return await getSynthFlowData(CALL_PATH, params);
   }
 
   async createCall(call: Omit<WebhookCall, 'id'>): Promise<Call | null> {
+    // Ignore +1123456789 number as it's the check webhook call to our webhook receiver from Synthflow
+    if (call.lead.phone_number === '+1123456789') {
+      return null;
+    }
     await postZapierData('', call)
     const newCall: Call = buildCall({
       status: call.status,
@@ -33,7 +37,7 @@ export class CallService {
       model_id: call.call.model_id,
       prompt_variables: call.lead.prompt_variables,
       phone_number_to: call.lead.phone_number,
-      name:call.lead.name,
+      name: call.lead.name,
       transcript: call.call.transcript,
       duration: call.call.duration,
       recording_url: call.call.recording_url,
