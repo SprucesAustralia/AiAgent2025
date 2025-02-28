@@ -1,4 +1,5 @@
 import { postSynthFlowData, getSynthFlowData } from '../clients/synthflowClient';
+import { postZapierData } from '../clients/zapierClient';
 import { MakeACallRequest } from '../models/makeACallRequest';
 import { MakeACallResponse } from '../models/makeACallResponse';
 import { Call, CallResponse, WebhookCall } from '../models/callResponse';
@@ -25,6 +26,7 @@ export class CallService {
   }
 
   async createCall(call: Omit<WebhookCall, 'id'>): Promise<Call | null> {
+    await postZapierData('', call)
     const newCall: Call = buildCall({
       status: call.status,
       call_id: call.call.call_id,

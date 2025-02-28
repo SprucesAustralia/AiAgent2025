@@ -39,7 +39,7 @@ export class LeadService {
       });
       const callResponse = await this.callService.makeACall(makeACallRequest);
       if (callResponse) {
-        this.leadCallService.createLeadCall(buildLeadCall({ lead_id: newLead.id, call_id: callResponse.response.call_id }));
+        await this.leadCallService.createLeadCall(buildLeadCall({ lead_id: newLead.id, call_id: callResponse.response.call_id }));
       }
     }
     return newLead
