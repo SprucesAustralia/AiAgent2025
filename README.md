@@ -1,6 +1,9 @@
 # AiAgent2025 
 - AiAgent2025 is the node js server which communicates to supabase, synthflow API and openai API.
 
+## Dev environment
+- https://ai-agent2025-blush.vercel.app
+
 ## Database
 - SprucesAiagents
 
