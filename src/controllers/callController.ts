@@ -9,16 +9,6 @@ export class CallController {
     this.callService = new CallService();
   }
 
-  async createCall(req: Request, res: Response): Promise<void> {
-    const leadCall: Omit<WebhookCall, 'id'> = req.body;
-    const createdCall = await this.callService.createCall(leadCall);
-    if (createdCall) {
-      res.status(201).json(createdCall);
-    } else {
-      res.status(500).json({ error: 'Failed to create call' });
-    }
-  }
-
   async getCallById(req: Request, res: Response): Promise<void> {
     const call = await this.callService.getCallById(req.params.id);
     if (call) {
