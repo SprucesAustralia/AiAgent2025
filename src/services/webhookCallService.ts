@@ -38,7 +38,7 @@ export class WebhookCallService {
     });
     console.info('Calling handle Bounded Call');
     // Store the call details in the respective repository
-    await this.boundedCallService.handleBoundedCall(newWebhookCall.call_id);
+    await this.boundedCallService.handleBoundedCall(newWebhookCall);
     return await this.webhookCallRepository.createWebhookCall(newWebhookCall);
   }
 }

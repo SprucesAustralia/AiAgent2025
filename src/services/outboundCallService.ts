@@ -1,4 +1,4 @@
-import { BoundedCall } from '../models/boundedCall';
+import { Call } from '../models/callResponse';
 import { OutboundCallRepository } from '../repositories/outboundCallRepository';
 
 export class OutboundCallService {
@@ -8,7 +8,7 @@ export class OutboundCallService {
     constructor() {
         this.outboundCallRepository = new OutboundCallRepository();
     }
-    async storeCall(outboundCall: BoundedCall): Promise<void> {
+    async storeCall(outboundCall: Call): Promise<void> {
         this.outboundCallRepository.createOutboundCall(outboundCall);
     }
 }
