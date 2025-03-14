@@ -1,17 +1,20 @@
 import { postZapierData } from '../clients/zapierClient';
 import { BoundedCalls, Call, WebhookCall } from '../models/callResponse';
-import { CallRepository } from '../repositories/callRepository';
+import { OutboundCallRepository } from '../repositories/outboundCallRepository';
 import { WebhookCallRepository } from '../repositories/webhookCallRepository';
 import { buildCall } from '../utils/buildCall';
-import { buildGenericCall } from '../utils/buildGenericCall';
+import { buildBoundedCalls } from '../utils/buildBoundedCalls';
+import { InboundCallRepository } from '../repositories/inboundCallRepository';
 
 export class WebhookCallService {
   private webhookCallRepository: WebhookCallRepository;
-  private callRepository: CallRepository;
+  private outboundCallRepository: OutboundCallRepository;
+  private inboundCallRepository: InboundCallRepository;
   private assistantLookup: Map<string, string>;
   constructor() {
     this.webhookCallRepository = new WebhookCallRepository();
-    this.callRepository = new CallRepository();
+    this.outboundCallRepository = new OutboundCallRepository();
+    this.inboundCallRepository = new InboundCallRepository();
     this.assistantLookup = new Map<string, string>;
     this.assistantLookup.set('1738741426507x677820573910445700', 'OUTBOUND_CALL');
     this.assistantLookup.set('1738396481314x557318381134590600', 'INBOUND_CALL');
@@ -42,7 +45,7 @@ export class WebhookCallService {
     });
     
     //since the data is similar on inbound_call and outbound_call, created a generic data for both.
-    const genericCall: BoundedCalls = buildGenericCall({
+    const newBoundedCall: BoundedCalls = buildBoundedCalls({
       call_id: webhookCall.call.call_id,
       model_id: webhookCall.call.model_id,
       phone_number_to: webhookCall.lead.phone_number,
@@ -54,7 +57,7 @@ export class WebhookCallService {
       end_call_reason: webhookCall.call.end_call_reason,
     })
     const assistantType = this.assistantLookup.get(webhookCall.call.model_id);
-    assistantType === 'INBOUND_CALL' ? this.callRepository.createInboundCall(genericCall) : this.callRepository.createOutboundCall(genericCall);
+    assistantType === 'INBOUND_CALL' ? this.inboundCallRepository.createInboundCall(newBoundedCall) : this.outboundCallRepository.createOutboundCall(newBoundedCall);
     return await this.webhookCallRepository.createWebhookCall(newWebhookCall);
   }
 }

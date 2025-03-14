@@ -1,6 +1,6 @@
 import { BoundedCalls } from '../models/callResponse';
 
-export const buildGenericCall = (data: Partial<BoundedCalls>): BoundedCalls => {
+export const buildBoundedCalls = (data: Partial<BoundedCalls>): BoundedCalls => {
   return {
     call_id: data.call_id || 'default-call-id',
     model_id: data.model_id || 'default-model-id',
