@@ -8,7 +8,6 @@ export class InboundCallRepository {
             .insert(inboundCall)
             .select()
             .single();
-        console.info('Data', data);
 
         if (error) {
             console.error('Error creating inbound call:', error);

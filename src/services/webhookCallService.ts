@@ -37,7 +37,6 @@ export class WebhookCallService {
       start_time: webhookCall.call.start_time,
       executed_actions: webhookCall.executed_actions
     });
-    console.info('Calling handle Bounded Call');
     // Store the call details in the respective repository
     await this.boundedCallService.handleBoundedCall(newWebhookCall);
     return await this.webhookCallRepository.createWebhookCall(newWebhookCall);
