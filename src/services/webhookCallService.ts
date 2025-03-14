@@ -20,7 +20,7 @@ export class WebhookCallService {
       return null;
     }
     // Send the webhook call data to Zapier
-    postZapierData('', webhookCall)
+    await postZapierData('', webhookCall)
     const newWebhookCall: Call = buildCall({
       status: webhookCall.status,
       call_id: webhookCall.call.call_id,
@@ -36,9 +36,9 @@ export class WebhookCallService {
       start_time: webhookCall.call.start_time,
       executed_actions: webhookCall.executed_actions
     });
-
+    console.info('Calling handle Bounded Call');
     // Store the call details in the respective repository
-    this.boundedCallService.handleBoundedCall(newWebhookCall.call_id);
+    await this.boundedCallService.handleBoundedCall(newWebhookCall.call_id);
     return await this.webhookCallRepository.createWebhookCall(newWebhookCall);
   }
 }
