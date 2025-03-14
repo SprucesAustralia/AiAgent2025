@@ -13,10 +13,10 @@ export class BoundedCallService {
 
   async handleBoundedCall(call_id: string): Promise<void> {
     const boundedCallDetails = await this.callService.getCallById(call_id);
-    console.info('Get call details from SynthFlow', boundedCallDetails);
     if (!boundedCallDetails) {
       throw new Error('Call details not found');
     }
+    console.info('Get call details from SynthFlow', boundedCallDetails.response.calls[0]);
     const boundedCallDetail = boundedCallDetails.response.calls[0];
     console.info('Calling get Service');
     const service = CallServiceFactory.getService(boundedCallDetail.campaign_type);
