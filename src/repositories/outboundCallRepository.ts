@@ -1,8 +1,8 @@
 import supabase from '../clients/supabaseClient';
-import { BoundedCalls } from '../models/callResponse';
+import { BoundedCall } from '../models/boundedCall';
 
 export class OutboundCallRepository {
-    async createOutboundCall(genericCall: Omit<BoundedCalls, 'id'>): Promise<BoundedCalls | null> {
+    async createOutboundCall(genericCall: Omit<BoundedCall, 'id'>): Promise<BoundedCall | null> {
         const { data, error } = await supabase
             .from('outbound_calls')
             .insert(genericCall)

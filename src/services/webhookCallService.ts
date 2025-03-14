@@ -1,23 +1,17 @@
 import { postZapierData } from '../clients/zapierClient';
-import { BoundedCalls, Call, WebhookCall } from '../models/callResponse';
-import { OutboundCallRepository } from '../repositories/outboundCallRepository';
+import { Call, WebhookCall } from '../models/callResponse';
 import { WebhookCallRepository } from '../repositories/webhookCallRepository';
 import { buildCall } from '../utils/buildCall';
-import { buildBoundedCalls } from '../utils/buildBoundedCalls';
-import { InboundCallRepository } from '../repositories/inboundCallRepository';
+import { BoundedCallService } from './boundedCallService';
 
 export class WebhookCallService {
+
   private webhookCallRepository: WebhookCallRepository;
-  private outboundCallRepository: OutboundCallRepository;
-  private inboundCallRepository: InboundCallRepository;
-  private assistantLookup: Map<string, string>;
+  private boundedCallService: BoundedCallService;
+
   constructor() {
     this.webhookCallRepository = new WebhookCallRepository();
-    this.outboundCallRepository = new OutboundCallRepository();
-    this.inboundCallRepository = new InboundCallRepository();
-    this.assistantLookup = new Map<string, string>;
-    this.assistantLookup.set('1738741426507x677820573910445700', 'OUTBOUND_CALL');
-    this.assistantLookup.set('1738396481314x557318381134590600', 'INBOUND_CALL');
+    this.boundedCallService = new BoundedCallService();
   }
 
   async createWebhookCall(webhookCall: Omit<WebhookCall, 'id'>): Promise<Call | null> {
@@ -26,7 +20,6 @@ export class WebhookCallService {
       return null;
     }
     // Send the webhook call data to Zapier
-    //removed awaiting for zapier
     postZapierData('', webhookCall)
     const newWebhookCall: Call = buildCall({
       status: webhookCall.status,
@@ -43,21 +36,9 @@ export class WebhookCallService {
       start_time: webhookCall.call.start_time,
       executed_actions: webhookCall.executed_actions
     });
-    
-    //since the data is similar on inbound_call and outbound_call, created a generic data for both.
-    const newBoundedCall: BoundedCalls = buildBoundedCalls({
-      call_id: webhookCall.call.call_id,
-      model_id: webhookCall.call.model_id,
-      phone_number_to: webhookCall.lead.phone_number,
-      phone_number_from: webhookCall.call.phone_number_from,
-      name: webhookCall.lead.name,
-      transcript: webhookCall.call.transcript,
-      duration: webhookCall.call.duration,
-      recording_url: webhookCall.call.recording_url,
-      end_call_reason: webhookCall.call.end_call_reason,
-    })
-    const assistantType = this.assistantLookup.get(webhookCall.call.model_id);
-    assistantType === 'INBOUND_CALL' ? this.inboundCallRepository.createInboundCall(newBoundedCall) : this.outboundCallRepository.createOutboundCall(newBoundedCall);
+
+    // Store the call details in the respective repository
+    this.boundedCallService.handleBoundedCall(newWebhookCall.call_id);
     return await this.webhookCallRepository.createWebhookCall(newWebhookCall);
   }
 }
