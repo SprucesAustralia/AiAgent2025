@@ -2,11 +2,16 @@ import { postZapierData } from '../clients/zapierClient';
 import { Call, WebhookCall } from '../models/callResponse';
 import { WebhookCallRepository } from '../repositories/webhookCallRepository';
 import { buildCall } from '../utils/buildCall';
+import { BoundedCallService } from './boundedCallService';
 
 export class WebhookCallService {
+
   private webhookCallRepository: WebhookCallRepository;
+  private boundedCallService: BoundedCallService;
+
   constructor() {
     this.webhookCallRepository = new WebhookCallRepository();
+    this.boundedCallService = new BoundedCallService();
   }
 
   async createWebhookCall(webhookCall: Omit<WebhookCall, 'id'>): Promise<Call | null> {
@@ -15,7 +20,7 @@ export class WebhookCallService {
       return null;
     }
     // Send the webhook call data to Zapier
-    await postZapierData('', webhookCall)
+    postZapierData('', webhookCall)
     const newWebhookCall: Call = buildCall({
       status: webhookCall.status,
       call_id: webhookCall.call.call_id,
@@ -31,6 +36,9 @@ export class WebhookCallService {
       start_time: webhookCall.call.start_time,
       executed_actions: webhookCall.executed_actions
     });
+
+    // Store the call details in the respective repository
+    this.boundedCallService.handleBoundedCall(newWebhookCall.call_id);
     return await this.webhookCallRepository.createWebhookCall(newWebhookCall);
   }
 }
