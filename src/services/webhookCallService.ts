@@ -27,6 +27,7 @@ export class WebhookCallService {
       model_id: webhookCall.call.model_id,
       prompt_variables: webhookCall.lead.prompt_variables,
       phone_number_to: webhookCall.lead.phone_number,
+      phone_number_from: webhookCall.call.phone_number_from,
       name: webhookCall.lead.name,
       transcript: webhookCall.call.transcript,
       duration: webhookCall.call.duration,
