@@ -8,6 +8,7 @@ export class OutboundCallRepository {
             .insert(genericCall)
             .select()
             .single();
+        console.info('Data', data);
 
         if (error) {
             console.error('Error creating outbound call:', error);
