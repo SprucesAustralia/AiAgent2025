@@ -17,7 +17,7 @@ export class BoundedCallService {
     if (!boundedCallDetails) {
       throw new Error('Call details not found');
     }
-    const boundedCallDetail = boundedCallDetails[0];
+    const boundedCallDetail = boundedCallDetails.response.calls[0];
     const service = CallServiceFactory.getService(boundedCallDetail.campaign_type);
 
     if (service instanceof InboundCallService) {

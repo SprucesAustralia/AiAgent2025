@@ -10,3 +10,10 @@ export interface BoundedCall {
     recording_url: string;
     end_call_reason: string;
 }
+
+export interface BoundedCallResponse {
+    status: string;
+    response: {
+        calls: BoundedCall[];
+    };
+}

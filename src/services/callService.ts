@@ -1,7 +1,7 @@
 import { postSynthFlowData, getSynthFlowData } from '../clients/synthflowClient';
 import { MakeACallRequest } from '../models/makeACallRequest';
 import { MakeACallResponse } from '../models/makeACallResponse';
-import { BoundedCall } from '../models/boundedCall';
+import { BoundedCallResponse } from '../models/boundedCall';
 
 const CALL_PATH = '/v2/calls'
 export class CallService {
@@ -11,11 +11,11 @@ export class CallService {
     return await postSynthFlowData(CALL_PATH, makeACallRequest);
   }
 
-  async getCallById(callId: string): Promise<BoundedCall[] | null> {
+  async getCallById(callId: string): Promise<BoundedCallResponse | null> {
     return await getSynthFlowData(`${CALL_PATH}/${callId}`);
   }
 
-  async getAllCalls(params?: object): Promise<BoundedCall[] | null> {
+  async getAllCalls(params?: object): Promise<BoundedCallResponse | null> {
     return await getSynthFlowData(CALL_PATH, params);
   }
 }
