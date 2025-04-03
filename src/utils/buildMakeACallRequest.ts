@@ -6,6 +6,7 @@ export const buildMakeACallRequest = (data: Partial<MakeACallRequest>): MakeACal
     team_id: data.team_id,
     phone: data.phone || 'default-phone',
     name: data.name || 'default-name',
+    address: data.address || 'Australia',
     custom_variables: data.custom_variables || [],
     lead_email: data.lead_email,
     lead_timezone: data.lead_timezone,

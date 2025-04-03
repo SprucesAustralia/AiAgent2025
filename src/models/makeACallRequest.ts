@@ -8,6 +8,7 @@ interface MakeACallRequest {
     team_id?: string;
     phone: string;
     name: string;
+    address: string;
     custom_variables?: CustomVariable[];
     lead_email?: string;
     lead_timezone?: string;

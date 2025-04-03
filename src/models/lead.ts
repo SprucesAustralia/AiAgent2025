@@ -15,6 +15,7 @@ export interface Lead {
   fullname: string;
   email: string;
   phone: string;
+  address: string;
   typeOfService: TypeOfService;
   createdAt: string;
 }
