@@ -32,9 +32,10 @@ export class LeadService {
         phone: newLead.phone,
         name: newLead.fullname,
         lead_email: newLead.email,
+        address: newLead.address,
         lead_timezone: 'Australia/Brisbane',
         greeting: `Hello ${newLead.fullname}, I am calling from Spruces cleaning! 
-        I've seen you complete our form on the website about ${newLead.typeOfService} services. 
+        I've seen you complete our form on the website about ${newLead.typeOfService} services for your mentioned address ${newLead.address}. 
         Do you have a couple of minutes to finish the request?`,
       });
       const callResponse = await this.callService.makeACall(makeACallRequest);
