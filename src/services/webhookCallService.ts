@@ -16,9 +16,9 @@ export class WebhookCallService {
 
   async createWebhookCall(webhookCall: Omit<WebhookCall, 'id'>): Promise<Call | null> {
     // Ignore +1123456789 number as it's the check webhook call to our webhook receiver from Synthflow
-    // if (webhookCall.lead.phone_number === '+1123456789') {
-    //   return null;
-    // }
+    if (webhookCall.lead.phone_number === '+1123456789') {
+      return null;
+    }
     // Send the webhook call data to Zapier
     await postZapierData('', webhookCall)
     const newWebhookCall: Call = buildCall({
