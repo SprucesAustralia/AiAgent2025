@@ -12,16 +12,17 @@ export class BoundedCallService {
   ]);
 
   async handleBoundedCall(call: Call): Promise<void> {
-    const campaignType = this.modelIdMap.get(call.model_id);
-    if (campaignType === undefined) {
-      throw new Error('Unknown model ID');
-    }
-    const service = CallServiceFactory.getService(campaignType);
+    // const campaignType = this.modelIdMap.get(call.model_id);
 
-    if (service instanceof InboundCallService) {
-      await service.storeCall(call);
-    } else if (service instanceof OutboundCallService) {
-      await service.storeCall(call);
-    }
+    // {if (campaignType === undefined) {
+    //   throw new Error('Unknown model ID');
+    // }
+    // const service = CallServiceFactory.getService(campaignType);
+
+    // if (service instanceof InboundCallService) {
+    //   await service.storeCall(call);
+    // } else if (service instanceof OutboundCallService) {
+    //   await service.storeCall(call);
+    // }}
   }
 }
